@@ -16,7 +16,11 @@ class TANKWARS_API AMyTankAIController : public AAIController
 	GENERATED_BODY()
 	
 public:
-	ATank* GetControlledTank() const;
 	
 	virtual void BeginPlay() override;
+
+private:
+
+	ATank * GetControlledTank() const;
+	ATank* GetPlayerTank() const;
 };
