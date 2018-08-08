@@ -6,6 +6,9 @@
 #include "Runtime/Engine/Classes/GameFramework/PlayerController.h"
 
 void  AMyTankAIController::BeginPlay() {
+	
+	Super::BeginPlay();
+	
 	ATank* ControlledTank = GetControlledTank();
 
 	// Check for AIcontrolled tank
@@ -26,15 +29,26 @@ void  AMyTankAIController::BeginPlay() {
 	}
 	else {
 
-		UE_LOG(LogTemp, Error, TEXT("AI controller couldn't find player tank "))
+		
 	}
 }
 	
+void AMyTankAIController::Tick(float deltaTime) {
+
+	Super::Tick(deltaTime);
+
+	if (GetPlayerTank()) {
+
+		GetControlledTank()->AimAt(GetPlayerTank()->GetActorLocation());
+	}
+	
+}
 
 ATank* AMyTankAIController::GetControlledTank() const {
 
 	return Cast<ATank>(GetPawn());
 }
+
 
 ATank* AMyTankAIController::GetPlayerTank() const {
 

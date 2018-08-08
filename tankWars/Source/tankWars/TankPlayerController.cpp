@@ -42,6 +42,7 @@ void ATankPlayerController::AimCrosshairs() {
 	FVector OutHitLocation;
 
 	if (GetAimLocation(OutHitLocation)) {
+		GetControlledTank()->AimAt(OutHitLocation);
 		//Rotate tank's turret to AimLocation
 	}
 }
@@ -63,7 +64,6 @@ bool ATankPlayerController::GetAimLocation(FVector& OutHitLocation) const {
 	if (GetTraceHitLocation(CrosshairLocation, LookDirection, HitResult)) {
 		
 		OutHitLocation = HitResult.Location;
-		UE_LOG(LogTemp, Warning, TEXT("TraceEnd Coordinates %s"), *OutHitLocation.ToString())
 		return true;
 	}
 	

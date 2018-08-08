@@ -18,6 +18,7 @@ class TANKWARS_API AMyTankAIController : public AAIController
 public:
 	
 	virtual void BeginPlay() override;
+	virtual void Tick(float deltaTime) override;
 
 private:
 
