@@ -1,6 +1,10 @@
 // Fill out your copyright notice in the Description page of Project Settings.
-
+#include "TankPlayerController.h"
+#include "Runtime/Engine/Classes/GameFramework/PlayerController.h"
+#include "Engine/World.h"
+#include "Runtime/Engine/Classes/GameFramework/Actor.h"
 #include "Runtime/Engine/Classes/Components/StaticMeshComponent.h"
+#include "Kismet/GameplayStatics.h"
 #include "Runtime/Engine/Classes/GameFramework/Actor.h"
 #include "MyTankAimingComponent.h"
 
@@ -35,10 +39,23 @@ void UMyTankAimingComponent::TickComponent(float DeltaTime, ELevelTick TickType,
 }
 
 
-void UMyTankAimingComponent::AimAt(FVector OutHitLocation) const {
+void UMyTankAimingComponent::AimAt(FVector OutHitLocation, float LaunchSpeed) const {
 
-	
-	UE_LOG(LogTemp, Warning, TEXT("%s is aiming at : %s from location: %s"), *GetOwner()->GetName(), *OutHitLocation.ToString(), *Barrel->GetComponentLocation().ToString())
+	if (!Barrel) { return; }
+
+	FVector OutLaunchVelocity;
+	FVector StartLocation = Barrel->GetSocketLocation(FName("LaunchPoint"));
+	TArray<AActor*> ActorsToIgnore;
+	if (UGameplayStatics::SuggestProjectileVelocity(GetWorld(), OutLaunchVelocity, StartLocation, OutHitLocation, LaunchSpeed, false,
+													50.f, 0.f, ESuggestProjVelocityTraceOption::DoNotTrace,
+													FCollisionResponseParams(), ActorsToIgnore, true
+	)) {
+
+		FVector AimDirection = OutLaunchVelocity.GetSafeNormal();
+		UE_LOG(LogTemp, Warning, TEXT("%s is Firing at speed: %s"), *GetOwner()->GetName(), *AimDirection.ToString())
+	}
+
+
 }
 
 void UMyTankAimingComponent::SetBarrel(UStaticMeshComponent * Barrel) {

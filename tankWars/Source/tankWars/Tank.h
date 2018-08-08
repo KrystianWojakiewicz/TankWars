@@ -2,6 +2,7 @@
 
 #pragma once
 
+
 #include "MyTankAimingComponent.h"
 #include "CoreMinimal.h"
 #include "GameFramework/Pawn.h"
@@ -16,7 +17,6 @@ public:
 	// Sets default values for this pawn's properties
 	ATank();
 
-	virtual void BeginPlay() override;
 
 	void AimAt(FVector OutHitLocation) const;
 	
@@ -35,5 +35,8 @@ private:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
-	
+	virtual void BeginPlay() override;
+
+	UPROPERTY(EditAnywhere, Category = Firing)
+	float LaunchSpeed = 100000.f; // TODO find reasonable default speed for projectile
 };

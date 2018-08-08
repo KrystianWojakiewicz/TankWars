@@ -20,9 +20,11 @@ public:
 
 	virtual void BeginPlay() override;
 
+	ATank * GetControlledTank() const;
+
 private:
 	
-	ATank * GetControlledTank() const;
+	
 	// Moves tank's turret to crosshairs location
 	void AimCrosshairs();
 
