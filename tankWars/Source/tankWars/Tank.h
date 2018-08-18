@@ -21,7 +21,7 @@ public:
 	void AimAt(FVector OutHitLocation) const;
 	
 	UFUNCTION(BlueprintCallable, Category = Setup)
-	void SetBarrel(UStaticMeshComponent* Barrel);
+	void SetBarrel(UTankBarrel* Barrel);
 
 protected:
 	// Called when the game starts or when spawned
@@ -29,8 +29,6 @@ protected:
 	UMyTankAimingComponent * TankAimingComponent = nullptr;
 
 private:	
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;

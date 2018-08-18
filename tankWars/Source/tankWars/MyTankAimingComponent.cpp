@@ -1,4 +1,6 @@
 // Fill out your copyright notice in the Description page of Project Settings.
+
+#include "MyTankAimingComponent.h"
 #include "TankPlayerController.h"
 #include "Runtime/Engine/Classes/GameFramework/PlayerController.h"
 #include "Engine/World.h"
@@ -6,7 +8,6 @@
 #include "Runtime/Engine/Classes/Components/StaticMeshComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "Runtime/Engine/Classes/GameFramework/Actor.h"
-#include "MyTankAimingComponent.h"
 
 
 // Sets default values for this component's properties
@@ -47,18 +48,22 @@ void UMyTankAimingComponent::AimAt(FVector OutHitLocation, float LaunchSpeed) co
 	FVector StartLocation = Barrel->GetSocketLocation(FName("LaunchPoint"));
 	TArray<AActor*> ActorsToIgnore;
 	if (UGameplayStatics::SuggestProjectileVelocity(GetWorld(), OutLaunchVelocity, StartLocation, OutHitLocation, LaunchSpeed, false,
-													50.f, 0.f, ESuggestProjVelocityTraceOption::DoNotTrace,
-													FCollisionResponseParams(), ActorsToIgnore, true
+													50.f, 0.f, ESuggestProjVelocityTraceOption::DoNotTrace
 	)) {
 
 		FVector AimDirection = OutLaunchVelocity.GetSafeNormal();
-		UE_LOG(LogTemp, Warning, TEXT("%s is Firing at speed: %s"), *GetOwner()->GetName(), *AimDirection.ToString())
+		//UE_LOG(LogTemp, Warning, TEXT("%s is Firing at speed: %s"), *GetOwner()->GetName(), *AimDirection.ToString())
+		FRotator CurrentBarrelRotaion = Barrel->GetForwardVector().Rotation();
+		FRotator NewBarrelRotaion = AimDirection.Rotation();
+		FRotator DeltaRotation = NewBarrelRotaion - CurrentBarrelRotaion;
+		Barrel->Elevate(DeltaRotation.Pitch);
 	}
-
+	
+	
 
 }
 
-void UMyTankAimingComponent::SetBarrel(UStaticMeshComponent * Barrel) {
+void UMyTankAimingComponent::SetBarrel(UTankBarrel * Barrel) {
 
 	this->Barrel = Barrel;
 }
