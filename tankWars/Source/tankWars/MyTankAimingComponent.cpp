@@ -57,6 +57,13 @@ void UMyTankAimingComponent::AimAt(FVector OutHitLocation, float LaunchSpeed) co
 		FRotator NewBarrelRotaion = AimDirection.Rotation();
 		FRotator DeltaRotation = NewBarrelRotaion - CurrentBarrelRotaion;
 		Barrel->Elevate(DeltaRotation.Pitch);
+		
+		if (!Turret) { UE_LOG(LogTemp, Error, TEXT("No Turret Found"));  return; }
+		else {
+			Turret->Rotate(DeltaRotation.Yaw);
+		}
+
+
 	}
 	
 	
@@ -66,5 +73,10 @@ void UMyTankAimingComponent::AimAt(FVector OutHitLocation, float LaunchSpeed) co
 void UMyTankAimingComponent::SetBarrel(UTankBarrel * Barrel) {
 
 	this->Barrel = Barrel;
+}
+
+void UMyTankAimingComponent::SetTurret(UTankTurret * Turret)
+{
+	this->Turret = Turret;
 }
 

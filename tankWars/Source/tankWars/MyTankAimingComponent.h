@@ -2,6 +2,7 @@
 
 #pragma once
 
+#include "TankTurret.h"
 #include "TankBarrel.h"
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
@@ -23,6 +24,7 @@ public:
 	void AimAt(FVector OutHitLocation, float LaunchSpeed) const;
 
 	void SetBarrel(UTankBarrel* Barrel);
+	void SetTurret(UTankTurret* Turret);
 
 protected:
 	// Called when the game starts
@@ -30,5 +32,5 @@ protected:
 
 private:
 	UTankBarrel * Barrel = nullptr;
-	
+	UTankTurret* Turret = nullptr;
 };
