@@ -20,7 +20,7 @@ class TANKWARS_API UTankTurret : public UStaticMeshComponent
 
 
 	private:
-		UPROPERTY(EditAnywhere)
-		float MaxSpeedPerSecond = 15.f;
+		UPROPERTY(EditAnywhere, Category = "Setup")
+		float MaxSpeedPerSecond = 30.f;
 
 };
