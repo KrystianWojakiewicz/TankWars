@@ -1,12 +1,14 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #pragma once
-
-
+#include "TankBarrel.h"
+#include "Runtime/CoreUObject/Public/Templates/Casts.h"
 #include "MyTankAimingComponent.h"
 #include "CoreMinimal.h"
 #include "GameFramework/Pawn.h"
 #include "Tank.generated.h"
+
+class AProjectile;
 
 UCLASS()
 class TANKWARS_API ATank : public APawn
@@ -43,4 +45,9 @@ private:
 
 	UPROPERTY(EditAnywhere, Category = Firing)
 	float LaunchSpeed = 4000.f; // TODO find reasonable default speed for projectile
+
+	UPROPERTY(EditAnywhere, Category = "Setup")
+	TSubclassOf<AProjectile> Projectile;
+
+	UTankBarrel* Barrel = nullptr;
 };

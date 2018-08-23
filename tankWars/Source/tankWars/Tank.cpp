@@ -1,7 +1,10 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-
 #include "Tank.h"
+#include "Projectile.h"
+#include "Runtime/Engine/Classes/Components/SkinnedMeshComponent.h"
+#include "TankBarrel.h"
+#include "Runtime/Engine/Classes/Engine/World.h "
 
 
 // Sets default values
@@ -35,6 +38,7 @@ void ATank::AimAt(FVector OutHitLocation) const {
 void ATank::SetBarrel(UTankBarrel * Barrel) {
 
 	TankAimingComponent->SetBarrel(Barrel);
+	this->Barrel = Barrel;
 }
 
 void ATank::SetTurret(UTankTurret * Turret)
@@ -44,6 +48,11 @@ void ATank::SetTurret(UTankTurret * Turret)
 
 void ATank::Fire()
 {
-	UE_LOG(LogTemp, Warning, TEXT("Tank is firing"))
-}
+	if (!Barrel) { UE_LOG(LogTemp, Error, TEXT("No Barrel Attatched")) return; }
 
+	FVector SpawnLocation = Barrel->GetSocketLocation(FName("LaunchPoint"));
+	FRotator SpawnRotation = Barrel->GetSocketRotation(FName("LaunchPoint"));
+	UE_LOG(LogTemp, Warning, TEXT("Tank is firing"))
+	GetWorld()->SpawnActor<AProjectile>(Projectile, SpawnLocation, SpawnRotation);
+
+}
