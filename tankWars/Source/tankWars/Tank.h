@@ -3,6 +3,7 @@
 #pragma once
 #include "TankBarrel.h"
 #include "Runtime/CoreUObject/Public/Templates/Casts.h"
+#include "Runtime/Engine/Classes/Components/SkinnedMeshComponent.h"
 #include "MyTankAimingComponent.h"
 #include "CoreMinimal.h"
 #include "GameFramework/Pawn.h"
@@ -47,7 +48,7 @@ private:
 	float LaunchSpeed = 4000.f; // TODO find reasonable default speed for projectile
 
 	UPROPERTY(EditAnywhere, Category = "Setup")
-	TSubclassOf<AProjectile> Projectile;
+	TSubclassOf<AProjectile> ProjectileBlueprint;
 
 	UTankBarrel* Barrel = nullptr;
 };

@@ -2,7 +2,7 @@
 
 #include "Tank.h"
 #include "Projectile.h"
-#include "Runtime/Engine/Classes/Components/SkinnedMeshComponent.h"
+
 #include "TankBarrel.h"
 #include "Runtime/Engine/Classes/Engine/World.h "
 
@@ -12,6 +12,7 @@ ATank::ATank()
 {
  	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = false;
+	
 	TankAimingComponent = CreateDefaultSubobject<UMyTankAimingComponent>(FName("TankAimingComponent"));
 }
 
@@ -52,7 +53,8 @@ void ATank::Fire()
 
 	FVector SpawnLocation = Barrel->GetSocketLocation(FName("LaunchPoint"));
 	FRotator SpawnRotation = Barrel->GetSocketRotation(FName("LaunchPoint"));
-	UE_LOG(LogTemp, Warning, TEXT("Tank is firing"))
-	GetWorld()->SpawnActor<AProjectile>(Projectile, SpawnLocation, SpawnRotation);
+
+	auto Projectile = GetWorld()->SpawnActor<AProjectile>(ProjectileBlueprint, SpawnLocation, SpawnRotation);
+	Projectile->LaunchProjectile(LaunchSpeed);
 
 }
