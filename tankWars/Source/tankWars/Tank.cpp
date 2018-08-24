@@ -49,12 +49,16 @@ void ATank::SetTurret(UTankTurret * Turret)
 
 void ATank::Fire()
 {
-	if (!Barrel) { UE_LOG(LogTemp, Error, TEXT("No Barrel Attatched")) return; }
+	
+	bool isReloaded = (GetWorld()->GetTimeSeconds() - LastReloaded) > ReloadSpeed;
+	if (Barrel && isReloaded) {
+		FVector SpawnLocation = Barrel->GetSocketLocation(FName("LaunchPoint"));
+		FRotator SpawnRotation = Barrel->GetSocketRotation(FName("LaunchPoint"));
+	
+		auto Projectile = GetWorld()->SpawnActor<AProjectile>(ProjectileBlueprint, SpawnLocation, SpawnRotation);
+		Projectile->LaunchProjectile(LaunchSpeed);
+		LastReloaded = GetWorld()->GetTimeSeconds();
+	}
 
-	FVector SpawnLocation = Barrel->GetSocketLocation(FName("LaunchPoint"));
-	FRotator SpawnRotation = Barrel->GetSocketRotation(FName("LaunchPoint"));
-
-	auto Projectile = GetWorld()->SpawnActor<AProjectile>(ProjectileBlueprint, SpawnLocation, SpawnRotation);
-	Projectile->LaunchProjectile(LaunchSpeed);
-
+	else { UE_LOG(LogTemp, Error, TEXT("No Barrel Attatched")) return; }
 }

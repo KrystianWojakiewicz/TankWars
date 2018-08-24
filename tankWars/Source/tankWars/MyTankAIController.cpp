@@ -40,6 +40,7 @@ void AMyTankAIController::Tick(float deltaTime) {
 	if (GetPlayerTank()) {
 
 		GetControlledTank()->AimAt(GetPlayerTank()->GetActorLocation());
+		GetControlledTank()->Fire();
 	}
 	
 }

@@ -44,11 +44,16 @@ private:
 
 	virtual void BeginPlay() override;
 
-	UPROPERTY(EditAnywhere, Category = Firing)
+	UPROPERTY(EditDefaultsOnly, Category = Firing)
 	float LaunchSpeed = 4000.f; // TODO find reasonable default speed for projectile
 
-	UPROPERTY(EditAnywhere, Category = "Setup")
+	UPROPERTY(EditDefaultsOnly, Category = "Setup")
 	TSubclassOf<AProjectile> ProjectileBlueprint;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Firing")
+	float ReloadSpeed = 1.5f;
+
+	float LastReloaded = -ReloadSpeed;
 
 	UTankBarrel* Barrel = nullptr;
 };

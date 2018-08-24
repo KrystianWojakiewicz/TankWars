@@ -18,12 +18,12 @@ class TANKWARS_API UTankBarrel : public UStaticMeshComponent
 	public:
 		void Elevate(float Speed);
 	private: 
-		UPROPERTY(EditAnywhere, Category = "Setup")
+		UPROPERTY(EditDefaultsOnly, Category = "Setup")
 		float MaxSpeedPerSecond = 15.f;
 		
-		UPROPERTY(EditAnywhere, Category = "Setup")
+		UPROPERTY(EditDefaultsOnly, Category = "Setup")
 		float MinElevation = 0.f;
 
-		UPROPERTY(EditAnywhere, Category = Setup)
+		UPROPERTY(EditDefaultsOnly, Category = Setup)
 		float MaxElevation = 30.f;
 };
