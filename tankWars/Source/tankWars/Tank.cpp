@@ -60,5 +60,7 @@ void ATank::Fire()
 		LastReloaded = GetWorld()->GetTimeSeconds();
 	}
 
-	else { UE_LOG(LogTemp, Error, TEXT("No Barrel Attatched")) return; }
+	else if (!Barrel) {
+		UE_LOG(LogTemp, Error, TEXT("No Barrel Attatched")) return; 
+	}
 }
