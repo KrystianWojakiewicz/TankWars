@@ -21,7 +21,7 @@ public:
 	ATank();
 
 
-	void AimAt(FVector OutHitLocation) const;
+	bool AimAt(FVector OutHitLocation) const;
 	
 	UFUNCTION(BlueprintCallable, Category = Setup)
 	void SetBarrel(UTankBarrel* Barrel);

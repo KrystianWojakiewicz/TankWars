@@ -15,7 +15,7 @@ UMyTankAimingComponent::UMyTankAimingComponent()
 {
 	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
 	// off to improve performance if you don't need them.
-	PrimaryComponentTick.bCanEverTick = true;
+	PrimaryComponentTick.bCanEverTick = false;
 
 	// ...
 }
@@ -40,9 +40,9 @@ void UMyTankAimingComponent::TickComponent(float DeltaTime, ELevelTick TickType,
 }
 
 
-void UMyTankAimingComponent::AimAt(FVector OutHitLocation, float LaunchSpeed) const {
+bool UMyTankAimingComponent::AimAt(FVector OutHitLocation, float LaunchSpeed) const {
 
-	if (!Barrel) { return; }
+	if (!Barrel) { return false; }
 
 	FVector OutLaunchVelocity;
 	FVector StartLocation = Barrel->GetSocketLocation(FName("LaunchPoint"));
@@ -53,20 +53,19 @@ void UMyTankAimingComponent::AimAt(FVector OutHitLocation, float LaunchSpeed) co
 
 		FVector AimDirection = OutLaunchVelocity.GetSafeNormal();
 		//UE_LOG(LogTemp, Warning, TEXT("%s is Firing at speed: %s"), *GetOwner()->GetName(), *AimDirection.ToString())
-		FRotator CurrentBarrelRotaion = Barrel->GetForwardVector().Rotation();
-		FRotator NewBarrelRotaion = AimDirection.Rotation();
-		FRotator DeltaRotation = NewBarrelRotaion - CurrentBarrelRotaion;
+		FRotator CurrentBarrelRotation = Barrel->GetForwardVector().Rotation();
+		FRotator NewBarrelRotation = AimDirection.Rotation();
+		FRotator DeltaRotation = NewBarrelRotation - CurrentBarrelRotation;
 		Barrel->Elevate(DeltaRotation.Pitch);
 		
-		if (!Turret) { UE_LOG(LogTemp, Error, TEXT("No Turret Found"));  return; }
+		if (!Turret) { UE_LOG(LogTemp, Error, TEXT("No Turret Found"));  return false; }
 		else {
-			Turret->Rotate(DeltaRotation.Yaw);
+			if (Turret->Rotate(DeltaRotation.Yaw) == NewBarrelRotation.Yaw) return true;
+			
 		}
-
-
 	}
-	
-	
+
+	return false;
 
 }
 

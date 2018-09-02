@@ -39,11 +39,12 @@ void AMyTankAIController::Tick(float deltaTime) {
 
 	if (GetPlayerTank()) {
 
-		GetControlledTank()->AimAt(GetPlayerTank()->GetActorLocation());
-		GetControlledTank()->Fire();
+		if (GetControlledTank()->AimAt(GetPlayerTank()->GetActorLocation()))
+				GetControlledTank()->Fire();
 	}
-	
+
 }
+
 
 ATank* AMyTankAIController::GetControlledTank() const {
 
