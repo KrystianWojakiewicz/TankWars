@@ -16,7 +16,7 @@ class TANKWARS_API UTankTurret : public UStaticMeshComponent
 	
 	
 	public:
-		float Rotate(float Speed);
+		FRotator Rotate(float Speed);
 
 
 	private:

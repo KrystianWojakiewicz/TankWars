@@ -48,8 +48,7 @@ bool UMyTankAimingComponent::AimAt(FVector OutHitLocation, float LaunchSpeed) co
 	FVector StartLocation = Barrel->GetSocketLocation(FName("LaunchPoint"));
 	TArray<AActor*> ActorsToIgnore;
 	if (UGameplayStatics::SuggestProjectileVelocity(GetWorld(), OutLaunchVelocity, StartLocation, OutHitLocation, LaunchSpeed, false,
-													50.f, 0.f, ESuggestProjVelocityTraceOption::DoNotTrace
-	)) {
+		50.f, 0.f, ESuggestProjVelocityTraceOption::DoNotTrace)) {
 
 		FVector AimDirection = OutLaunchVelocity.GetSafeNormal();
 		//UE_LOG(LogTemp, Warning, TEXT("%s is Firing at speed: %s"), *GetOwner()->GetName(), *AimDirection.ToString())
@@ -57,18 +56,15 @@ bool UMyTankAimingComponent::AimAt(FVector OutHitLocation, float LaunchSpeed) co
 		FRotator NewBarrelRotation = AimDirection.Rotation();
 		FRotator DeltaRotation = NewBarrelRotation - CurrentBarrelRotation;
 		Barrel->Elevate(DeltaRotation.Pitch);
-		
+
 		if (!Turret) { UE_LOG(LogTemp, Error, TEXT("No Turret Found"));  return false; }
-		else {
-			if (Turret->Rotate(DeltaRotation.Yaw) == NewBarrelRotation.Yaw) return true;
-			
-		}
+		
+		Turret->Rotate(DeltaRotation.Yaw);
+		if (DeltaRotation.IsNearlyZero(0.0008f)) { UE_LOG(LogTemp, Error, TEXT("THEY ARE EQUAL")) return true; }
+		
 	}
-
 	return false;
-
 }
-
 void UMyTankAimingComponent::SetBarrel(UTankBarrel * Barrel) {
 
 	this->Barrel = Barrel;

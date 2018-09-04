@@ -3,7 +3,7 @@
 #include "TankTurret.h"
 #include "Engine/World.h"
 
-float UTankTurret::Rotate(float Speed) {
+FRotator UTankTurret::Rotate(float Speed) {
 
 	float ClampedSpeed = FMath::Clamp<float>(Speed, -1, 1);
 
@@ -12,6 +12,6 @@ float UTankTurret::Rotate(float Speed) {
 
 	this->SetRelativeRotation(FRotator(0, NewRotation, 0));
 
-	return GetComponentRotation().Yaw;
+	return RelativeRotation;
 }
 
